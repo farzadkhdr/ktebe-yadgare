@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پەڕەی تایبەت</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+            font-family: Arial, sans-serif;
+        }
+
+        /* ستایلی ڤیدۆی یەکەم */
+        #intro-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* بۆ ئەوەی ڕێک پڕ بە شاشەی موبایل بێت */
+            z-index: 10;
+        }
+
+        /* ناوەڕۆکی بەشی دووەم (دوای تەواوبوونی ڤیدۆکە) */
+        #main-content {
+            display: none; /* تا ڤیدۆی یەکەم تەواو دەبێت شاراوەیە */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* وێنەی باکگراوند */
+            background-image: url('https://raw.githubusercontent.com/farzadkhdr/ktebe-yadgare/main/IMG_9806.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 1;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* وێنە گەورەکەی سەر باکگراوند */
+        #center-image {
+            max-width: 90%;
+            max-height: 80vh;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            object-fit: contain;
+        }
+
+        /* دوگمەی دەستپێکردن بۆ چارەسەرکردنی ڕێگرییەکانی مرورگەر (Autoplay) */
+        #start-btn {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 20;
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #ffffff;
+            color: #000;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- دوگمەی دەستپێکردن تا بەکارهێنەر کلیک بکات (چونکە مۆبایلەکان ڕێگە نادەن دەنگ خۆکارانە لێبدرێت) -->
+    <button id="start-btn" onclick="startExperience()">داگرە بۆ دەستپێکردن</button>
+
+    <!-- ڤیدۆی یەکەم (بە دەنگەوە) -->
+    <video id="intro-video" playsinline preload="auto">
+        <source src="https://raw.githubusercontent.com/farzadkhdr/ktebe-yadgare/main/a_The_book_opens%2C_and_.mp4" type="video/mp4">
+        پێگەکەت پشتگیری ڤیدۆ ناکات.
+    </video>
+
+    <!-- ناوەڕۆک دوای تەواوبوونی ڤیدۆکە -->
+    <div id="main-content">
+        <!-- وێنە گەورەکەی سەر باکگراوندەکە -->
+        <img id="center-image" src="https://raw.githubusercontent.com/farzadkhdr/ktebe-yadgare/main/IMG_9802.jpeg" alt="Main Image">
+    </div>
+
+    <!-- فایلی دەنگی/ڤیدۆیی دووەم کە دوای تەواوبوونی یەکەم بە شێوەی خۆکارانە لێدەدرێت -->
+    <audio id="bg-audio" preload="auto">
+        <source src="https://raw.githubusercontent.com/farzadkhdr/ktebe-yadgare/main/-1863885848778464690.mp4" type="audio/mp4">
+    </audio>
+
+    <script>
+        const introVideo = document.getElementById('intro-video');
+        const mainContent = document.getElementById('main-content');
+        const bgAudio = document.getElementById('bg-audio');
+        const startBtn = document.getElementById('start-btn');
+
+        // کاتێک بەکارهێنەر کلیک لە سەر دوگمەکە دەکات ڤیدۆی یەکەم دەستپێدەکات
+        function startExperience() {
+            startBtn.style.display = 'none'; // شارستنەوەی دوگمەکە
+            introVideo.play().catch(error => {
+                console.log("پەخشکردن سەرکەوتوو نەبوو: ", error);
+            });
+        }
+
+        // کاتێک ڤیدۆی یەکەم تەواو بوو
+        introVideo.onended = function() {
+            // شارستنەوەی ڤیدۆی یەکەم
+            introVideo.style.display = 'none';
+            
+            // پیشاندانی باکگراوند و وێنە گەورەکە
+            mainContent.style.display = 'flex';
+            
+            // دەستپێکردنی دەنگی دووەم بە شێوەی خۆکار
+            bgAudio.play().catch(error => {
+                console.log("لێدانی دەنگ ڕەتکرایەوە لەلایەن وێبگەڕەوە: ", error);
+            });
+        };
+    </script>
+
+</body>
+</html>
