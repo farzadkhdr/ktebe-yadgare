@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>پەڕەی تایبەت</title>
+    <!-- هێنانی فۆنتی جوانی کوردی/عەرەبی لە گۆگڵ (Amiri & Aref Ruqaa) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
     <style>
         * {
             margin: 0;
@@ -16,7 +21,7 @@
             height: 100%;
             overflow: hidden;
             background-color: #000;
-            font-family: Arial, sans-serif;
+            font-family: 'Amiri', serif;
         }
 
         /* ستایلی ڤیدۆی یەکەم */
@@ -26,19 +31,18 @@
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover; /* بۆ ئەوەی ڕێک پڕ بە شاشەی موبایل بێت */
+            object-fit: cover;
             z-index: 10;
         }
 
         /* ناوەڕۆکی بەشی دووەم (دوای تەواوبوونی ڤیدۆکە) */
         #main-content {
-            display: none; /* تا ڤیدۆی یەکەم تەواو دەبێت شاراوەیە */
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            /* وێنەی باکگراوند */
             background-image: url('https://raw.githubusercontent.com/farzadkhdr/ktebe-yadgare/main/IMG_9806.jpeg');
             background-size: cover;
             background-position: center;
@@ -46,54 +50,111 @@
             z-index: 1;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
+        }
+
+        /* بەشێکی تایبەت بۆ وێنەکە و نوسینەکەی سەر وێنەکە */
+        .image-container {
+            position: relative;
+            width: 90%;
+            max-width: 500px;
+            max-height: 85vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            border-radius: 20px;
+            overflow: hidden;
         }
 
         /* وێنە گەورەکەی سەر باکگراوند */
         #center-image {
-            max-width: 90%;
-            max-height: 80vh;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            object-fit: contain;
+            width: 100%;
+            height: auto;
+            max-height: 85vh;
+            object-fit: cover;
+            display: block;
+            filter: brightness(0.85); /* تۆزێک تاریکتر کردنی وێنەکە بۆ ئەوەی دەقەکە روونتر دەربکەوێت */
         }
 
-        /* دوگمەی دەستپێکردن بۆ چارەسەرکردنی ڕێگرییەکانی مرورگەر (Autoplay) */
+        /* دەقە ڕاستەوخۆکەی سەر وێنەکە */
+        .overlay-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 88%;
+            color: #fff;
+            text-align: center;
+            font-family: 'Aref Ruqaa', 'Amiri', serif;
+            font-size: 1.25rem;
+            line-height: 2;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9), 0 0 15px rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.35); /* باکگراوندێکی کەمێک روون بۆ ئەوەی نوسینەکە بە جوانی بخوێندرێتەوە */
+            padding: 20px 15px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(3px); /* لێڵکردنێکی کەم لە پشتی نوسینەکە بۆ شیکپۆشی زیاتر */
+        }
+
+        /* دوگمەی دەستپێکردن */
         #start-btn {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 20;
-            padding: 15px 30px;
-            font-size: 18px;
-            background-color: #ffffff;
-            color: #000;
+            padding: 15px 35px;
+            font-size: 20px;
+            background: linear-gradient(135deg, #ffffff, #e0e0e0);
+            color: #111;
             border: none;
-            border-radius: 25px;
+            border-radius: 30px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
             font-weight: bold;
+            font-family: 'Amiri', serif;
+            transition: transform 0.2s;
+        }
+
+        #start-btn:active {
+            transform: translate(-50%, -50%) scale(0.95);
+        }
+
+        /* گونجاندن بۆ شاشەی زۆر بچووک */
+        @media (max-width: 400px) {
+            .overlay-text {
+                font-size: 1.05rem;
+                line-height: 1.8;
+                padding: 12px 10px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- دوگمەی دەستپێکردن تا بەکارهێنەر کلیک بکات (چونکە مۆبایلەکان ڕێگە نادەن دەنگ خۆکارانە لێبدرێت) -->
-    <button id="start-btn" onclick="startExperience()">داگرە بۆ دەستپێکردن</button>
+    <!-- دوگمەی دەستپێکردن -->
+    <button id="start-btn" onclick="startExperience()">داگرە بۆ دەستپێکردن ❤️</button>
 
-    <!-- ڤیدۆی یەکەم (بە دەنگەوە) -->
+    <!-- ڤیدۆی یەکەم -->
     <video id="intro-video" playsinline preload="auto">
         <source src="https://raw.githubusercontent.com/farzadkhdr/ktebe-yadgare/main/a_The_book_opens%2C_and_.mp4" type="video/mp4">
-        پێگەکەت پشتگیری ڤیدۆ ناکات.
     </video>
 
-    <!-- ناوەڕۆک دوای تەواوبوونی ڤیدۆکە -->
+    <!-- ناوەڕۆکی دووەم -->
     <div id="main-content">
-        <!-- وێنە گەورەکەی سەر باکگراوندەکە -->
-        <img id="center-image" src="https://raw.githubusercontent.com/farzadkhdr/ktebe-yadgare/main/IMG_9802.jpeg" alt="Main Image">
+        <div class="image-container">
+            <img id="center-image" src="https://raw.githubusercontent.com/farzadkhdr/ktebe-yadgare/main/IMG_9802.jpeg" alt="Main Image">
+            <!-- دەقی داواکراو بە فۆنتی دیزاینکراو -->
+            <div class="overlay-text">
+                یادگاریەکی وات لەگەڵ دروست دەکەم لە دونیاکەی تریش پەشیمان نەبی لە هەڵبژاردنم، سوێند بەخوا چاوەکانم بەس تۆ دەبینن لەتۆ زیاتر کێ دەتوانێت بچێتە دڵی من. گەورەیی خۆشەویستیت بێگومان بۆمن وەسف ناکرێ 🥲🦋💋💋💋💋
+                <br><br>
+                رەیانممم قوربانت بم ئیهــــــــــــــــــــــــــــــ چاو زەیتونەکەم
+            </div>
+        </div>
     </div>
 
-    <!-- فایلی دەنگی/ڤیدۆیی دووەم کە دوای تەواوبوونی یەکەم بە شێوەی خۆکارانە لێدەدرێت -->
+    <!-- فایلی دەنگی دووەم -->
     <audio id="bg-audio" preload="auto">
         <source src="https://raw.githubusercontent.com/farzadkhdr/ktebe-yadgare/main/-1863885848778464690.mp4" type="audio/mp4">
     </audio>
@@ -104,25 +165,18 @@
         const bgAudio = document.getElementById('bg-audio');
         const startBtn = document.getElementById('start-btn');
 
-        // کاتێک بەکارهێنەر کلیک لە سەر دوگمەکە دەکات ڤیدۆی یەکەم دەستپێدەکات
         function startExperience() {
-            startBtn.style.display = 'none'; // شارستنەوەی دوگمەکە
+            startBtn.style.display = 'none';
             introVideo.play().catch(error => {
-                console.log("پەخشکردن سەرکەوتوو نەبوو: ", error);
+                console.log("Error playing video: ", error);
             });
         }
 
-        // کاتێک ڤیدۆی یەکەم تەواو بوو
         introVideo.onended = function() {
-            // شارستنەوەی ڤیدۆی یەکەم
             introVideo.style.display = 'none';
-            
-            // پیشاندانی باکگراوند و وێنە گەورەکە
             mainContent.style.display = 'flex';
-            
-            // دەستپێکردنی دەنگی دووەم بە شێوەی خۆکار
             bgAudio.play().catch(error => {
-                console.log("لێدانی دەنگ ڕەتکرایەوە لەلایەن وێبگەڕەوە: ", error);
+                console.log("Error playing audio: ", error);
             });
         };
     </script>
